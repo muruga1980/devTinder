@@ -4,69 +4,30 @@ const app = express();
 
 // multiple request handler way
 
-app.get("/user", (req, res) => {
-  res.send({ firstName: "Murugan", age: 40, role: "UI/UX" });
-});
+app.use(
+  "/user",
 
-app.post("/user", (req, res) => {
-  res.send("save the  datas from DB");
-});
+  (req, res, next) => {
+    //res.send({ firstName: "Murugan", age: 40, role: "UI/UX" });
+    next();
+  },
 
-app.delete("/user", (req, res) => {
-  res.send("Delete the datas from DB");
-});
+  (req, res) => {
+    res.send("respone 2");
+  },
 
-app.use("/home", (req, res) => {
-  res.send("this is homepageAAABBBBBBBBBBB");
-});
+  (req, res) => {
+    res.send("respone 3");
+  },
 
-// expression used in routing
+  (req, res) => {
+    res.send("respone 4");
+  },
 
-//option
-app.post("/abo?ut", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/abo+ut", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/abo*ut", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/a(bo)?ut", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/a(bo)+ut", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/a(bo)*ut", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post(/a/, (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post(/.*fly$/, (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/user/:userId", (req, res) => {
-  res.send("expression keyword used in routin");
-});
-
-app.post("/user/:userId/:name/:pasword", (req, res) => {
-  console.log(req.query);
-  res.send({ name: "murugan", age: 40, password: "hellow123" });
-});
-
-app.use((req, res) => {
-  res.send("this is server ressponding in localhost");
-});
+  (req, res) => {
+    res.send("respone 5");
+  }
+);
 
 app.listen(3000, () => {
   console.log("node server running now...");
