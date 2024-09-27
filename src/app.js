@@ -1,33 +1,38 @@
 const express = require("express");
 
 const app = express();
+const { adminAuth, userAuth } = require("./middleware/authendication");
 
-// multiple request handler way
+// middleware using in admin user
 
-app.use(
-  "/user",
+app.use("/admin", adminAuth);
+app.use("/user", userAuth);
 
-  (req, res, next) => {
-    //res.send({ firstName: "Murugan", age: 40, role: "UI/UX" });
-    next();
-  },
+//or
 
-  (req, res) => {
-    res.send("respone 2");
-  },
+// app.use("/admin", (req, res, next) => {
+//   const tocken = "xyz";
+//   const isAdminAuthrosized = tocken === "xyz";
+//   if (!isAdminAuthrosized) {
+//     res.send("admin access provided for admin");
+//   } else {
+//     next();
+//   }
+// });
 
-  (req, res) => {
-    res.send("respone 3");
-  },
+app.get("/user", userAuth, (req, res) => {
+  //logic of checking is authrosied or not
+  res.send("user data sent ");
+});
 
-  (req, res) => {
-    res.send("respone 4");
-  },
+app.get("/admin/getAlldata", (req, res) => {
+  //logic of checking is authrosied or not
+  res.send("admin access provided for allData ");
+});
 
-  (req, res) => {
-    res.send("respone 5");
-  }
-);
+app.use("/admin/deleteusers", (req, res) => {
+  res.send("admin access provided for DeleteUsers ");
+});
 
 app.listen(3000, () => {
   console.log("node server running now...");
